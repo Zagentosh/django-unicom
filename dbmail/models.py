@@ -7,7 +7,7 @@ import os
 import re
 
 from django.core import signing
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.html import strip_tags
 from django.utils.timezone import now
 from django.core.cache import cache
@@ -594,7 +594,7 @@ class SignalDeferredDispatch(models.Model):
     kwargs = models.TextField()
     params = models.TextField()
     eta = models.DateTimeField(db_index=True)
-    done = models.NullBooleanField(default=None)
+    done = models.BooleanField(default=None, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def run_task(self):
@@ -617,7 +617,9 @@ class SignalDeferredDispatch(models.Model):
         )
 
     class Meta:
-        index_together = (('eta', 'done'),)
+        indexes = [
+            models.Index(fields=['eta', 'done'], name='signal_eta_done_idx')
+        ]
 
 
 @python_2_unicode_compatible
@@ -773,7 +775,7 @@ class MailLogTrack(models.Model):
                 MailLogTrack.objects.create(
                     mail_log=mail_log,
                     ip=get_ip(request),
-                    ua=request.META.get('HTTP_USER_AGENT'),
+                    ua=request.headers.get('User-Agent'),
                     is_read=True,
                 )
             else:
