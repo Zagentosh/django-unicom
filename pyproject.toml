@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-unicom"
+description = "Django module to easily send emails using django templates stored in a database."
+readme = "README.rst"
+license = { text = "GPL" }
+authors = [
+    { name = "jnyl00", email = "john.yalanskyi@gmail.com" }, 
+    { name = "GoTLiuM InSPiRiT", email = "gotlium@gmail.com" }
+]
+keywords = [
+    "django", "db", "mail", "email", "html", "text",
+    "tts", "sms", "push", "templates", "mailer"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "django>=4.0,<5.0",
+    "premailer",
+]
+
+# Version is dynamic (get_version())
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/Zagentosh/django-unicom"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["demo"]
+
+[tool.setuptools.package-data]
+dbmail = [
+    "locale/*/LC_MESSAGES/django.*",
+    "static/dbmail/admin/js/*.js",
+    "fixtures/*.json",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "dbmail.get_version" }

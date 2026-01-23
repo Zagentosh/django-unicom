@@ -53,3 +53,11 @@ mail_files
 certs/*
 demo/*.zip
 .venv
+
+# ====================================
+# uv (Astral)
+# ====================================
+# uv creates lock and build metadata
+.uv/
+.uv_cache/
+uv.lock
